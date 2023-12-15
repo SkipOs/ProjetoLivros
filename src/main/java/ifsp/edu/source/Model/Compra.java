@@ -6,8 +6,9 @@ import java.util.List;
 public class Compra {
     private long id;
     private Pessoa cliente;
-    private List<Produto> itens;
+    private List<ItensCompra> itensCompra;  // Lista de itens da compra
     private Date data;
+
 
     public long getId() {
         return id;
@@ -25,12 +26,12 @@ public class Compra {
         this.cliente = cliente;
     }
 
-    public List<Produto> getItens() {
-        return itens;
+    public List<ItensCompra> getItens() {
+        return itensCompra;
     }
 
-    public void setItens(List<Produto> itens) {
-        this.itens = itens;
+    public void setItens(List<ItensCompra> itens) {
+        this.itensCompra = itens;
     }
 
     public Date getData() {

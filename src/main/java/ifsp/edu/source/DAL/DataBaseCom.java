@@ -47,16 +47,37 @@ public class DataBaseCom {
     }
 
     public boolean criarTabelas() {
-        try {
-            //statement.executeUpdate("drop table if exists person");
-            statement.executeUpdate("create table if not exists pessoa (id INTEGER PRIMARY KEY, nome TEXT)");
-            statement.executeUpdate("create table if not exists venda (id INTEGER  PRIMARY KEY, id_client INTEGER, data TEXT)");
-            statement.executeUpdate("create table if not exists produto (id INTEGER  PRIMARY KEY, nome TEXT, qtde INTEGER, preco REAL)");
-            statement.executeUpdate("create table if not exists item_produto (id INTEGER  PRIMARY KEY, id_venda INTEGER, id_produto INTEGER)");
-            statement.executeUpdate("create table if not exists compra (id INTEGER PRIMARY KEY, cliente INTEGER, itens INTEGER, data DATA)");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    	try {
+    	    // Criação da tabela Pessoa
+    	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS pessoa (" +
+    	                            "id INTEGER PRIMARY KEY," +
+    	                            "nome TEXT)");
+
+    	    // Criação da tabela Produto
+    	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS produto (" +
+    	                            "id INTEGER PRIMARY KEY," +
+    	                            "nome TEXT," +
+    	                            "quantidade INTEGER," +
+    	                            "preco REAL)");
+
+    	    // Criação da tabela Compra
+    	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS compra (" +
+    	                            "id INTEGER PRIMARY KEY," +
+    	                            "cliente_id INTEGER," +
+    	                            "data TEXT," +
+    	                            "FOREIGN KEY (cliente_id) REFERENCES pessoa(id))");
+
+    	    // Criação da tabela ItensCompra
+    	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS itens_compra (" +
+    	                            "compra_id INTEGER," +
+    	                            "produto_id INTEGER," +
+    	                            "quantidade INTEGER," +
+    	                            "PRIMARY KEY (compra_id, produto_id)," +
+    	                            "FOREIGN KEY (compra_id) REFERENCES compra(id)," +
+    	                            "FOREIGN KEY (produto_id) REFERENCES produto(id))");
+    	} catch (SQLException e) {
+    	    e.printStackTrace();
+    	}
         return true;
     }
     
