@@ -53,6 +53,7 @@ public class DataBaseCom {
             statement.executeUpdate("create table if not exists venda (id INTEGER  PRIMARY KEY, id_client INTEGER, data TEXT)");
             statement.executeUpdate("create table if not exists produto (id INTEGER  PRIMARY KEY, nome TEXT, qtde INTEGER, preco REAL)");
             statement.executeUpdate("create table if not exists item_produto (id INTEGER  PRIMARY KEY, id_venda INTEGER, id_produto INTEGER)");
+            statement.executeUpdate("create table if not exists compra (id INTEGER PRIMARY KEY, cliente INTEGER, itens INTEGER, data DATA)");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

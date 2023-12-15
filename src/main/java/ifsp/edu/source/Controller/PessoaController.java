@@ -5,65 +5,53 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ifsp.edu.source.DAL.DaoPessoa;
+import ifsp.edu.source.DAL.DataBaseCom;
 import ifsp.edu.source.Model.Pessoa;
 
 @RestController
 public class PessoaController {
 
-	DaoPessoa pessoaDao=new DaoPessoa();
-	
+    DataBaseCom database = new DataBaseCom();
+    DaoPessoa cadPessoas = new DaoPessoa();
 
-    @RequestMapping(value = "/pessoa", method = RequestMethod.GET)
-    public List<Pessoa> Get() {
-        return pessoaDao.listar();
+    @GetMapping(value = "/pessoa")
+    public List<Pessoa> listar() {
+        return cadPessoas.listar();
     }
 
-    @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Pessoa> GetById(@PathVariable(value = "id") long id)
-    {
-       Pessoa pessoa = pessoaDao.searchById(id);
-        if(pessoa!=null)
+    @GetMapping("/pessoa/{id}")
+    public ResponseEntity<Pessoa> GetById(@PathVariable(value = "id") long id) {
+        Pessoa pessoa = cadPessoas.findById(id);
+        if (pessoa != null)
             return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/pessoa", method =  RequestMethod.POST)
-    public Pessoa Post(@Validated @RequestBody Pessoa pessoa)
-    {
-        return pessoaDao.incluir(pessoa);
+    @PostMapping("/pessoa") // incluir
+    public String Post(@Validated @RequestBody Pessoa pessoa) {
+        cadPessoas.incluir(pessoa);
+        return "Pessoa Cadastrada";
     }
 
-    @RequestMapping(value = "/pessoa/{id}", method =  RequestMethod.PUT)
-    public ResponseEntity<Pessoa> Put(@PathVariable(value = "id") long id, @Validated @RequestBody Pessoa newPessoa)
-    {
-        Pessoa oldPessoa = pessoaDao.searchById(id);
-        if(oldPessoa!=null){
-            Pessoa pessoa = oldPessoa;
-            pessoa.setNome(newPessoa.getNome());
-            pessoaDao.incluir(pessoa);
-            return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/pessoa") // update
+    public String Atualizar(@Validated @RequestBody Pessoa newPessoa) {
+        cadPessoas.alterar(newPessoa);
+        return "Pessoa atualizada";
     }
 
-    @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
-    {
-        Pessoa pessoa =  pessoaDao.searchById(id);
-        if(pessoa!=null){
-            pessoaDao.excluir(pessoa);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/pessoa/{id}") // delete
+    public String Delete(@PathVariable(value = "id") long id) {
+        cadPessoas.excluir(id);
+        return "Exclusão realizada";
     }
 }
