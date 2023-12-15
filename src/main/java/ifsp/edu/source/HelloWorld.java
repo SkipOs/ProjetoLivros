@@ -14,7 +14,7 @@ public class HelloWorld {
 	/*
 	 * Estão faltando algumas coisas no sistema. 
 	 * -Dao de Produtos (feito)
-	 * -Dao de ItensCompra
+	 * -Dao de ItensCompra ()
 	 * -Dao de Compra (feito)
 	 * -Entre outros.
 	 * O trabalho consiste em terminar de elaborar o sistema para realizar uma compra

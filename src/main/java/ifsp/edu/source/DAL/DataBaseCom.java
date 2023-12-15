@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author aluno
+ * @author
+ * @author
  */
 public class DataBaseCom {
 

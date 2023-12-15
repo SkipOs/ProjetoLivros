@@ -20,7 +20,7 @@ public class PessoaController {
 	DaoPessoa pessoaDao=new DaoPessoa();
 	
 
-    @RequestMapping(value = "/compra", method = RequestMethod.GET)
+    @RequestMapping(value = "/pessoa", method = RequestMethod.GET)
     public List<Pessoa> Get() {
         return pessoaDao.listar();
     }
