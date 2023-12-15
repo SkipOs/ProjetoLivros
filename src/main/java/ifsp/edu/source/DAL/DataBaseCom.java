@@ -64,11 +64,11 @@ public class DataBaseCom {
     	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS compra (" +
     	                            "id INTEGER PRIMARY KEY," +
     	                            "cliente_id INTEGER," +
-    	                            "data TEXT," +
     	                            "FOREIGN KEY (cliente_id) REFERENCES pessoa(id))");
 
     	    // Criação da tabela ItensCompra
     	    statement.executeUpdate("CREATE TABLE IF NOT EXISTS itens_compra (" +
+    	    						"id INTEGER," +
     	                            "compra_id INTEGER," +
     	                            "produto_id INTEGER," +
     	                            "quantidade INTEGER," +

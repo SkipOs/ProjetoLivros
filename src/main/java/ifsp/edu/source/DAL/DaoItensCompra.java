@@ -26,7 +26,7 @@ public class DaoItensCompra {
             ex.printStackTrace();
         }
         return false;
-    }
+    }	
 
     public boolean alterar(ItensCompra itensCompra) {
         DataBaseCom.conectar();
@@ -46,13 +46,12 @@ public class DaoItensCompra {
         return false;
     }
 
-    public boolean excluir(ItensCompra itensCompra) {
+    public boolean excluir(long produtocompraId) {
         DataBaseCom.conectar();
-        String sqlString = "delete from itens_compra where id_venda=? and id_produto=?";
+        String sqlString = "delete from itens_compra where id=?";
         try {
             PreparedStatement ps = DataBaseCom.getConnection().prepareStatement(sqlString);
-            ps.setLong(1, itensCompra.getIdVenda());
-            ps.setLong(2, itensCompra.getIdProduto());
+            ps.setLong(1, produtocompraId);
 
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
@@ -66,11 +65,23 @@ public class DaoItensCompra {
         DataBaseCom.conectar();
         List<ItensCompra> lista = new ArrayList<>();
         try {
-            ResultSet rs = DataBaseCom.getStatement().executeQuery("select * from itens_compra");
+            // Utiliza um INNER JOIN para combinar dados das tabelas itens_compra e produto
+            String query = "SELECT itens_compra.id, "
+                         + "itens_compra.compra_id, "
+                         + "itens_compra.produto_id, "
+                         + "itens_compra.quantidade, "
+                         + "produto.nome AS nome_produto, "
+                         + "produto.preco AS preco_produto "
+                         + "FROM itens_compra "
+                         + "INNER JOIN produto ON itens_compra.produto_id = produto.id";
+
+            ResultSet rs = DataBaseCom.getStatement().executeQuery(query);
+
             while (rs.next()) {
                 ItensCompra itensCompra = new ItensCompra();
-                itensCompra.setIdVenda(rs.getLong("id_venda"));
-                itensCompra.setIdProduto(rs.getLong("id_produto"));
+                itensCompra.setId(rs.getLong("id"));
+                itensCompra.setIdVenda(rs.getLong("compra_id"));
+                itensCompra.setIdProduto(rs.getLong("produto_id"));
                 itensCompra.setQuantidade(rs.getInt("quantidade"));
                 lista.add(itensCompra);
             }
@@ -79,4 +90,25 @@ public class DaoItensCompra {
         }
         return lista;
     }
-}
+    
+    public ItensCompra findByIds(long compraId) {
+        DataBaseCom.conectar();
+        ItensCompra itemCompra = null;
+        try {
+            String sqlString = "SELECT * FROM itens_compra WHERE compra_id=?";
+            PreparedStatement ps = DataBaseCom.getConnection().prepareStatement(sqlString);
+            ps.setLong(1, compraId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                itemCompra = new ItensCompra();
+                itemCompra.setIdVenda(rs.getLong("id"));
+                itemCompra.setQuantidade(rs.getInt("quantidade"));
+                itemCompra.setIdVenda(rs.getLong("id_venda"));
+                itemCompra.setIdProduto(rs.getLong("id_produto"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return itemCompra;
+}}

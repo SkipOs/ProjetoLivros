@@ -105,7 +105,7 @@ public class DaoLivro {
 				Livro p = new Livro();
 				p.setId(rs.getInt("id"));
 				p.setNome(rs.getString("nome"));
-				p.setQuantidade(rs.getInt("qtde"));
+				p.setQuantidade(rs.getInt("quantidade"));
 				p.setPreco(rs.getDouble("preco"));
 				lista.add(p);
 

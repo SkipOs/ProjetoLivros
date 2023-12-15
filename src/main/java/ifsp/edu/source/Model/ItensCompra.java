@@ -2,12 +2,12 @@ package ifsp.edu.source.Model;
 
 public class ItensCompra {
 
+	private long id;
     private long idVenda;
     private long idProduto;
     private int quantidade;
 
     public ItensCompra() {
-        // Construtor vazio necessário para o Spring
     }
 
     public ItensCompra(long idVenda, long idProduto, int quantidade) {
@@ -39,4 +39,12 @@ public class ItensCompra {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 }

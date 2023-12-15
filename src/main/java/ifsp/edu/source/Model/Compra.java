@@ -1,13 +1,16 @@
 package ifsp.edu.source.Model;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Compra {
     private long id;
-    private Pessoa cliente;
+    private long cliente;
     private List<ItensCompra> itensCompra;  // Lista de itens da compra
-    private Date data;
+
+    public Compra() {
+        this.itensCompra = new ArrayList<>();
+    }
 
 
     public long getId() {
@@ -18,12 +21,12 @@ public class Compra {
         this.id = id;
     }
 
-    public Pessoa getCliente() {
+    public long getCliente() {
         return cliente;
     }
 
-    public void setCliente(Pessoa cliente) {
-        this.cliente = cliente;
+    public void setCliente(long id) {
+        this.cliente = id;
     }
 
     public List<ItensCompra> getItens() {
@@ -32,13 +35,5 @@ public class Compra {
 
     public void setItens(List<ItensCompra> itens) {
         this.itensCompra = itens;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
 }
